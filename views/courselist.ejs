@@ -1,0 +1,52 @@
+<h1>The courses are</h1>
+Here we want a ul list with the instructor, coursenum, title, term
+<hr>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Genre</th>
+            <th>Release Date</th>
+            <th>Popularity</th>
+            <th>Overview</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    <% for (movie of movies) {
+        const title = movie['Title']
+        const genre = movie['Genre']
+        const release = movie['Release_Date']
+        const Popularity = movie['Popularity']
+        const Overview = movie['Overview']
+         %>
+      <tr class="mb-2"> 
+        <td>
+            <%=  movie['Title'] %>
+        </td>
+        <td>
+            <strong><%= movie['Genre'] %></strong>
+        </td>
+
+        <td>
+            <%= movie['Release_Date']%>
+        </td>
+
+        <td>
+        <%= movie['Popularity'] %>
+        </td>
+         <!-- <%= JSON.stringify(movie.times) %> <br> -->
+        
+
+        <td>
+          <%= movie['Overview'] %>
+        </td>
+    </tr>
+    <% } %>
+    </tbody>
+</table>
+
+<pre>
+    <!-- 
+        <%= JSON.stringify(movie,null,5) %> 
+    -->
+</pre>

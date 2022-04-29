@@ -1,0 +1,40 @@
+
+    <style>
+        body {background: url(images/collage.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; text-align: center; background-color: black; }
+        h1   {color: white; background-color: black;}
+        p    {color: red; background-color: black;}
+        form {color: aliceblue; background-color: black;}
+        div  {background-color: black;}
+    </style>
+    <div class="jumbotron bg-black" >
+        <h1>cs103a-cpa02: 9000 Movies Database Finder </h1>
+    </div>
+    <div class="p-3">
+    <% if (true || loggedIn) {%>  
+        <form method="post" action="/courses/bySubject">
+            Show Movies by Genre: 
+              <input type="text" name="subject" 
+                     placeholder="e.g. Horror">
+            <input type="submit">
+        </form>
+        <br>
+        <form method="post" action="/courses/byInst">
+            Hot 40 By Popularity: 
+                   <button type="button">Click Me!</button>
+        </form>
+        <br>
+
+        <form method="post" action="/courses/byKeyword">
+            Show Movies by Keyword: 
+            <input type="text" name="keyword" 
+                   placeholder="e.g. Batman">
+            <input type="submit">
+        </form>
+        <a href="/schedule/show">Show Schedule</a>
+    <% } %>
+    </div>
+
