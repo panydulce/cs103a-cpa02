@@ -112,121 +112,6 @@ app.get("/about", (req, res, next) => {
     res.render("about");
 });
 
-
-
-/*
-    ToDoList routes
-*/
-app.get('/todo',
-    isLoggedIn, // redirect to /login if user is not logged in
-    async(req, res, next) => {
-        try {
-            let userId = res.locals.user._id; // get the user's id
-            let items = await ToDoItem.find({ userId: userId }); // lookup the user's todo items
-            res.locals.items = items; //make the items available in the view
-            res.render("toDo"); // render to the toDo page
-        } catch (e) {
-            next(e);
-        }
-    }
-)
-
-app.post('/todo/add',
-    isLoggedIn,
-    async(req, res, next) => {
-        try {
-            const { title, description } = req.body; // get title and description from the body
-            const userId = res.locals.user._id; // get the user's id
-            const createdAt = new Date(); // get the current date/time
-            let data = { title, description, userId, createdAt, } // create the data object
-            let item = new ToDoItem(data) // create the database object (and test the types are correct)
-            await item.save() // save the todo item in the database
-            res.redirect('/todo') // go back to the todo page
-        } catch (e) {
-            next(e);
-        }
-    }
-)
-
-app.get("/todo/delete/:itemId",
-    isLoggedIn,
-    async(req, res, next) => {
-        try {
-            const itemId = req.params.itemId; // get the id of the item to delete
-            await ToDoItem.deleteOne({ _id: itemId }) // remove that item from the database
-            res.redirect('/todo') // go back to the todo page
-        } catch (e) {
-            next(e);
-        }
-    }
-)
-
-app.get("/todo/completed/:value/:itemId",
-    isLoggedIn,
-    async(req, res, next) => {
-        try {
-            const itemId = req.params.itemId; // get the id of the item to delete
-            const completed = req.params.value == 'true';
-            await ToDoItem.findByIdAndUpdate(itemId, { completed }) // remove that item from the database
-            res.redirect('/todo') // go back to the todo page
-        } catch (e) {
-            next(e);
-        }
-    }
-)
-
-/* ************************
-  Functions needed for the course finder routes
-   ************************ */
-
-function getNum(coursenum) {
-    // separate out a coursenum 103A into 
-    // a num: 103 and a suffix: A
-    i = 0;
-    while (i < coursenum.length && '0' <= coursenum[i] && coursenum[i] <= '9') {
-        i = i + 1;
-    }
-    return coursenum.slice(0, i);
-}
-
-
-function times2str(times) {
-    // convert a course.times object into a list of strings
-    // e.g ["Lecture:Mon,Wed 10:00-10:50","Recitation: Thu 5:00-6:30"]
-    if (!times || times.length == 0) {
-        return ["not scheduled"]
-    } else {
-        return times.map(x => time2str(x))
-    }
-
-}
-
-function min2HourMin(m) {
-    // converts minutes since midnight into a time string, e.g.
-    // 605 ==> "10:05"  as 10:00 is 60*10=600 minutes after midnight
-    const hour = Math.floor(m / 60);
-    const min = m % 60;
-    if (min < 10) {
-        return `${hour}:0${min}`;
-    } else {
-        return `${hour}:${min}`;
-    }
-}
-
-function time2str(time) {
-    // creates a Times string for a lecture or recitation, e.g. 
-    //     "Recitation: Thu 5:00-6:30"
-    const start = time.start
-    const end = time.end
-    const days = time.days
-    const meetingType = time['type'] || "Lecture"
-    const location = time['building'] || ""
-
-    return `${meetingType}: ${days.join(",")}: ${min2HourMin(start)}-${min2HourMin(end)} ${location}`
-}
-
-
-
 /* ************************
   Loading (or reloading) the data into a collection
    ************************ */
@@ -246,46 +131,44 @@ app.get('/upsertDB',
 )
 
 
-app.post('/courses/bySubject',
-    // show list of courses in a given subject
-    async(req, res, next) => {
-        const { subject } = req.body;
-        const courses = await Course.find({ subject: subject, independent_study: false }).sort({ term: 1, num: 1, section: 1 })
-
-        res.locals.courses = courses
-        res.locals.strTimes = courses.strTimes
-            //res.json(courses)
-        res.render('courselist')
-    }
-)
-
-app.get('/courses/show/:courseId',
-    // show all info about a course given its courseid
-    async(req, res, next) => {
-        const { courseId } = req.params;
-        const course = await Course.findOne({ _id: courseId })
-        res.locals.course = course
-        res.locals.strTimes = courses.strTimes
-            //res.json(course)
-        res.render('course')
-    }
-)
-
-app.post('/courses/byInst',
-    // show courses taught by a faculty send from a form
-    async(req, res, next) => {
-        const moviesort = movies.sort({Popularity: -1})
-        res.locals.movies = moviesort
-        res.render('courselist')
-    }
-)
-
 app.post('/courses/byKeyword',
     // show list of courses in a given subject
     async(req, res, next) => {
         const { keyword } = req.body;
         var regex = new RegExp(keyword, "gi")
         const movies = await Movie.find({Title: regex})
+        res.locals.movies = movies
+            //res.json(courses)
+        res.render('courselist')
+    }
+)
+
+const popularNames = [
+    {
+      '$sort':{
+        'Popularity': -1
+      }
+    }
+]
+
+
+app.post('/courses/byInst',
+    // show courses taught by a faculty send from a form
+    async(req, res, next) => {
+        const temp = Movie.find(docs)
+        const movies = await Movie.aggregate(popularNames).limit(40)
+        res.locals.movies = movies
+        res.render('courselist')
+    }
+)
+
+app.post('/courses/bySubject',
+    // show list of courses in a given subject
+    async(req, res, next) => {
+        const { subject } = req.body;
+        var regex = new RegExp(subject, "gi")
+        //const Genre = splitStr(",",Movie({Genre}))
+        const movies = await Movie.find({Genre:regex})
         res.locals.movies = movies
             //res.json(courses)
         res.render('courselist')
