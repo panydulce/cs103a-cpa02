@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+  
+
   <head>
     <!-- Required Bootstrap meta tags -->
     <meta charset="utf-8">
@@ -12,12 +14,12 @@
     <!-- custom CSS -->
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
-  <body>
-   <div class="container-fluid">
+  <body >
+   <div class="container-fluid"  >
 
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-black ">
-        <a class="navbar-brand" href="/">CS103A-CPA02</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-black color:#FFFFFF ">
+        <a class="navbar-brand" style="color:antiquewhite;" href="/">CS103A-CPA02</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -26,27 +28,24 @@
           <ul class="navbar-nav mr-auto">
       
             <li class="nav-item ">
-              <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" style="color: antiquewhite;" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
       
             <li class="nav-item">
-              <a class="nav-link" href="/about">About</a>
+              <a class="nav-link" style="color: antiquewhite;" href="/about">About</a>
             </li>
 
             
             <% if (!loggedIn) {%>
             <li class="nav-item">
-              <a class="nav-link" href="/login">Login/Signup</a>
+              <a class="nav-link" style="color: antiquewhite;" href="/login">Login/Signup</a>
             </li>
             <% } else { %>
 
-              <li class="nav-item">
-                <a class="nav-link" href="/todo">To Do list</a>
-              </li>
             
               
               <li class="nav-item">
-                <a class="nav-link" href="/logout">Logout <%= username %></a>
+                <a class="nav-link" style="color: antiquewhite;" href="/logout">Logout <%= username %></a>
               </li>
             <% } %>
       
