@@ -33,8 +33,10 @@ const movies = require('./public/data/movies.json')
 // *********************************************************** //
 
 const mongoose = require('mongoose');
+const dotenv = require('dotenv')
+dotenv.config();
 // const mongodb_URI = 'mongodb://localhost:27017/cs103a_todo'
-const mongodb_URI = process.env.mongodb_URI
+const mongodb_URI = `${process.env.link}`
 
 mongoose.connect(mongodb_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 // fix deprecation warnings
@@ -250,8 +252,7 @@ app.use(function(err, req, res, next) {
 //  Starting up the server!
 // *********************************************************** //
 //Here we set the port to use between 1024 and 65535  (2^16-1)
-const port = process.env.PORT || "5000";
-console.log('connecting on port' + port)
+const port = "5000";
 app.set("port", port);
 
 // and now we startup the server listening on that port
