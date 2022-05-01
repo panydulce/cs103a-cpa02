@@ -33,7 +33,7 @@ const movies = require('./public/data/movies.json')
 // *********************************************************** //
 
 const mongoose = require('mongoose');
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
 dotenv.config();
 // const mongodb_URI = 'mongodb://localhost:27017/cs103a_todo'
 const mongodb_URI = `${process.env.link}`
