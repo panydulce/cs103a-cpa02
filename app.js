@@ -157,7 +157,6 @@ const popularNames = [
 app.post('/courses/byInst',
     // show courses taught by a faculty send from a form
     async(req, res, next) => {
-        const temp = Movie.find(docs)
         const movies = await Movie.aggregate(popularNames).limit(40)
         res.locals.movies = movies
         res.render('courselist')
