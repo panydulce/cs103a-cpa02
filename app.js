@@ -252,14 +252,14 @@ app.use(function(err, req, res, next) {
 //  Starting up the server!
 // *********************************************************** //
 //Here we set the port to use between 1024 and 65535  (2^16-1)
-const port = "5000";
+const port = process.env.PORT || "5000";
+console.log('connecting on port' + port);
 app.set("port", port);
 
 // and now we startup the server listening on that port
 const http = require("http");
 const server = http.createServer(app);
-
-server.listen(port);
+server.listen(process.env.PORT || 5000);
 
 function onListening() {
     var addr = server.address();
